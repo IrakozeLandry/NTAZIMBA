@@ -1,73 +1,80 @@
-DROP TABLE IF EXISTS client ;
-CREATE TABLE client (idcilent_client BIGINT(11) AUTO_INCREMENT NOT NULL,
-nom-client_client VARCHAR(11),
-prenom-client_client VARCHAR(11),
-email-client_client VARCHAR(11),
-tel-client_client VARCHAR(11),
-adresse-client_client VARCHAR(11),
-datenaissance-client_client VARCHAR(11),
-PRIMARY KEY (idcilent_client)) ENGINE=InnoDB;
+DROP TABLE IF EXISTS Association_33;
+DROP TABLE IF EXISTS exercer;
+DROP TABLE IF EXISTS acheter;
+DROP TABLE IF EXISTS fonction;
+DROP TABLE IF EXISTS fournisseur;
+DROP TABLE IF EXISTS employe;
+DROP TABLE IF EXISTS produit;
+DROP TABLE IF EXISTS client;
 
-DROP TABLE IF EXISTS produit ;
-CREATE TABLE produit (idproduit_produit BIGINT(11) AUTO_INCREMENT NOT NULL,
-nom-produit_produit BIGINT(11),
-type-produit_produit BIGINT(11),
-prixunitaire-produit_produit BIGINT(11),
-quantite-produit_produit VARCHAR(11),
-PRIMARY KEY (idproduit_produit)) ENGINE=InnoDB;
+CREATE TABLE client (
+    idclient BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nom_client VARCHAR(50),
+    prenom_client VARCHAR(50),
+    tel_client VARCHAR(20),
+    email_client VARCHAR(100),
+    adresse_client VARCHAR(100)
+    
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS employe ;
-CREATE TABLE employe (idemploye_employe BIGINT(11) AUTO_INCREMENT NOT NULL,
-nom-employe_employe VARCHAR(11),
-prenom-employe_employe VARCHAR(11),
-adresse-employe_employe VARCHAR(11),
-email-employe_employe VARCHAR(11),
-PRIMARY KEY (idemploye_employe)) ENGINE=InnoDB;
+CREATE TABLE produit (
+    idproduit BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nom_produit VARCHAR(100),
+    type_produit VARCHAR(50),
+    prixunitaire_produit DECIMAL(10,2),
+    quantite_produit INT
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS fournisseur ;
-CREATE TABLE fournisseur (idfournisseur_fournisseur BIGINT(11) AUTO_INCREMENT NOT NULL,
-nom-fournisseur_fournisseur VARCHAR(11),
-prenom-fournisseur_fournisseur VARCHAR(11),
-email-fournisseur_fournisseur VARCHAR(11),
-adresse-fournisseur_fournisseur VARCHAR(11),
-PRIMARY KEY (idfournisseur_fournisseur)) ENGINE=InnoDB;
+CREATE TABLE employe (
+    idemploye BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nom_employe VARCHAR(50),
+    prenom_employe VARCHAR(50),
+    tel_employe VARCHAR(20),
+    email_employe VARCHAR(100),
+    adresse_employe VARCHAR(100)
+   
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS fonction ;
-CREATE TABLE fonction (idfonction_fonction BIGINT(11) AUTO_INCREMENT NOT NULL,
-nom-fonction_fonction BIGINT(11),
-PRIMARY KEY (idfonction_fonction)) ENGINE=InnoDB;
+CREATE TABLE fournisseur (
+    idfournisseur BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nom_fournisseur VARCHAR(50),
+    prenom_fournisseur VARCHAR(50),
+    tel_fournisseur VARCHAR(20),
+    email_fournisseur VARCHAR(100),
+    adresse_fournisseur VARCHAR(100)
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS acheter ;
-CREATE TABLE acheter (idcilent_client **NOT FOUND**(11) AUTO_INCREMENT NOT NULL,
-idproduit_produit **NOT FOUND**(11) NOT NULL,
-idemploye_employe **NOT FOUND**(11) NOT NULL,
-idacheter_acheter BIGINT(11),
-quantite_acheter VARCHAR(11),
-date_acheter VARCHAR(11),
-PRIMARY KEY (idcilent_client,
- idproduit_produit,
- idemploye_employe)) ENGINE=InnoDB;
+CREATE TABLE fonction (
+    idfonction BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nom_fonction VARCHAR(50)
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS exercer ;
-CREATE TABLE exercer (idemploye_employe **NOT FOUND**(11) AUTO_INCREMENT NOT NULL,
-idfonction_fonction **NOT FOUND**(11) NOT NULL,
-idexercer_exercer BIGINT(11),
-debut_exercer VARCHAR(11),
-fin_exercer VARCHAR(11),
-PRIMARY KEY (idemploye_employe,
- idfonction_fonction)) ENGINE=InnoDB;
+CREATE TABLE acheter (
+    idacheter BIGINT AUTO_INCREMENT PRIMARY KEY,
+    idclient BIGINT NOT NULL,
+    idproduit BIGINT NOT NULL,
+    idemploye BIGINT NOT NULL,
+    quantite INT,
+    date_achat DATE,
+    FOREIGN KEY (idclient) REFERENCES client(idclient),
+    FOREIGN KEY (idproduit) REFERENCES produit(idproduit),
+    FOREIGN KEY (idemploye) REFERENCES employe(idemploye)
+) ENGINE=InnoDB;
 
-DROP TABLE IF EXISTS Association_33 ;
-CREATE TABLE Association_33 (idproduit_produit **NOT FOUND**(11) AUTO_INCREMENT NOT NULL,
-idfournisseur_fournisseur **NOT FOUND**(11) NOT NULL,
-PRIMARY KEY (idproduit_produit,
- idfournisseur_fournisseur)) ENGINE=InnoDB;
+CREATE TABLE exercer (
+    idemploye BIGINT NOT NULL,
+    idfonction BIGINT NOT NULL,
+    debut DATE,
+    fin DATE,
+    PRIMARY KEY (idemploye, idfonction),
+    FOREIGN KEY (idemploye) REFERENCES employe(idemploye),
+    FOREIGN KEY (idfonction) REFERENCES fonction(idfonction)
+) ENGINE=InnoDB;
 
-ALTER TABLE acheter ADD CONSTRAINT FK_acheter_idcilent_client FOREIGN KEY (idcilent_client) REFERENCES client (idcilent_client);
-
-ALTER TABLE acheter ADD CONSTRAINT FK_acheter_idproduit_produit FOREIGN KEY (idproduit_produit) REFERENCES produit (idproduit_produit);
-ALTER TABLE acheter ADD CONSTRAINT FK_acheter_idemploye_employe FOREIGN KEY (idemploye_employe) REFERENCES employe (idemploye_employe);
-ALTER TABLE exercer ADD CONSTRAINT FK_exercer_idemploye_employe FOREIGN KEY (idemploye_employe) REFERENCES employe (idemploye_employe);
-ALTER TABLE exercer ADD CONSTRAINT FK_exercer_idfonction_fonction FOREIGN KEY (idfonction_fonction) REFERENCES fonction (idfonction_fonction);
-ALTER TABLE Association_33 ADD CONSTRAINT FK_Association_33_idproduit_produit FOREIGN KEY (idproduit_produit) REFERENCES produit (idproduit_produit);
-ALTER TABLE Association_33 ADD CONSTRAINT FK_Association_33_idfournisseur_fournisseur FOREIGN KEY (idfournisseur_fournisseur) REFERENCES fournisseur (idfournisseur_fournisseur);
+CREATE TABLE fournir (
+    idproduit BIGINT NOT NULL,
+    idfournisseur BIGINT NOT NULL,
+    PRIMARY KEY (idproduit, idfournisseur),
+    FOREIGN KEY (idproduit) REFERENCES produit(idproduit),
+    FOREIGN KEY (idfournisseur) REFERENCES fournisseur(idfournisseur)
+) ENGINE=InnoDB;
