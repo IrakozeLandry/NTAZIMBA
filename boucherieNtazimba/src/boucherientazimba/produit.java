@@ -2,29 +2,53 @@
 package boucherientazimba;
 
 public class produit {
-  private int id_produit;
+  private int idproduit;
    private String nom_produit;
    private String type_produit;
-   private String pu_produit;
-   private String quantite_produit;
+   private int prixunitaire_produit;
+   private int quantite_produit;
+   private int prixtotal_produit;
+
+    public produit(String nom_produit, String type_produit, int prixunitaire_produit, int quantite_produit, int prixtotal_produit) {
+        this.nom_produit = nom_produit;
+        this.type_produit = type_produit;
+        this.prixunitaire_produit = prixunitaire_produit;
+        this.quantite_produit = quantite_produit;
+        this.prixtotal_produit = prixtotal_produit;
+    }
+
+    public produit(int idproduit, String nom_produit, String type_produit, int prixunitaire_produit, int quantite_produit) {
+        this.idproduit = idproduit;
+        this.nom_produit = nom_produit;
+        this.type_produit = type_produit;
+        this.prixunitaire_produit = prixunitaire_produit;
+        this.quantite_produit = quantite_produit;
+    }
+
+    public produit(int idproduit, String nom_produit, String type_produit, int prixunitaire_produit, int quantite_produit, int prixtotal_produit) {
+        this.idproduit = idproduit;
+        this.nom_produit = nom_produit;
+        this.type_produit = type_produit;
+        this.prixunitaire_produit = prixunitaire_produit;
+        this.quantite_produit = quantite_produit;
+        this.prixtotal_produit = prixtotal_produit;
+    }
    
-}
- public produit() {
-
-}
-  
-  public produit(int id_produit,String nom_produit,String type_produit,String pu_produit,String quantite_produit) {
-
-   this.id_produit=id_produit;
-   this.nom_produit=nom_produit;
-   this.type_produit=type_produit;
-   this.pu_produit=pu_produit;
-   this.quantite_produit=quantite_produit;
-
- }
-    public int getId_produit() {
+      
     
-    return id_produit;
+  
+  
+
+    public produit(int prixtotal_produit) {
+        this.prixtotal_produit = prixtotal_produit;
+    }
+  
+  
+  
+  
+    public int getIdproduit() {
+    
+    return idproduit;
 
 }
    
@@ -37,11 +61,25 @@ public class produit {
     
     return type_produit;
 }
-   public String getPu_produit() {
+   public int getPrixunitaire_produit() {
    
-  return pu_produit;
+  return prixunitaire_produit;
 }
-   public String getQuantite_produit() {
+   public int getQuantite_produit() {
       
     return quantite_produit;
+}
+   
+   public int getPrixtotal_produit() {
+       
+       return prixtotal_produit;
+   }
+
+    @Override
+    public String toString() {
+        return "produit{" + "idproduit=" + idproduit + ", nom_produit=" + nom_produit + ", type_produit=" + type_produit + ", prixunitaire_produit=" + prixunitaire_produit + ", quantite_produit=" + quantite_produit + ", prixtotal_produit=" + prixtotal_produit + '}';
+    }
+
+    
+   
 }
